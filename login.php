@@ -1,37 +1,51 @@
-<?php 
-include("header.php"); 
+<?php
+// Start session at the very top
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 include("db.php");
 
+// If user is already logged in, redirect based on role
+if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
+    if (trim($_SESSION['role']) === 'admin') {
+        header("Location: admin.php");
+        exit;
+    } else {
+        header("Location: dashboard.php");
+        exit;
+    }
+}
 
-
-if(isset($_POST['login'])){
+// Process login
+if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $pass = $_POST['password'];
 
     $sql = $conn->query("SELECT * FROM users WHERE email='$email'");
-    if($sql->num_rows > 0){
+    if ($sql->num_rows > 0) {
         $row = $sql->fetch_assoc();
-        if(password_verify($pass, $row['password'])){
-            // Start session
+        if (password_verify($pass, $row['password'])) {
             $_SESSION['user_id'] = $row['user_id'];
-            $_SESSION['role'] = trim($row['role']); // remove extra spaces
+            $_SESSION['role'] = trim($row['role']);
             $_SESSION['name'] = $row['name'];
 
-            // Redirect based on role
-            if($_SESSION['role'] === 'admin'){
-                header("Location: admin.php"); // <-- Admin goes here
+            if ($_SESSION['role'] === 'admin') {
+                header("Location: admin.php");
                 exit;
             } else {
-                header("Location: dashboard.php"); // <-- Users go here
+                header("Location: dashboard.php");
                 exit;
             }
-        } else { 
-            $error = "Incorrect password!"; 
+        } else {
+            $error = "Incorrect password!";
         }
-    } else { 
-        $error = "Email not found!"; 
+    } else {
+        $error = "Email not found!";
     }
 }
+
+include("header.php");
 ?>
 
 <div class="row justify-content-center">
