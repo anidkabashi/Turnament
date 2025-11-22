@@ -4,6 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 include("db.php");
 
+
 // Only admin can access
 if(!isset($_SESSION['role']) || trim($_SESSION['role']) !== 'admin'){
     header("Location: dashboard.php");
@@ -85,6 +86,10 @@ $resolvedReports = $conn->query("SELECT COUNT(*) as total FROM reports WHERE sta
                                  ORDER BY r.report_id DESC");
         while($report = $reports->fetch_assoc()):
         ?>
+        <?php if(isset($_SESSION['msg'])): ?>
+    <div class="alert alert-success"><?= $_SESSION['msg']; ?></div>
+    <?php unset($_SESSION['msg']); ?>
+<?php endif; ?>
         <tr>
             <td><?= htmlspecialchars($report['title']) ?></td>
             <td><?= htmlspecialchars($report['description']) ?></td>
@@ -92,10 +97,10 @@ $resolvedReports = $conn->query("SELECT COUNT(*) as total FROM reports WHERE sta
             <td><?= htmlspecialchars($report['status']) ?></td>
             <td>
                 <?php if($report['status'] == 'pending'): ?>
-                    <a href="update_status.php?id=<?= $report['report_id'] ?>&status=resolved" class="btn btn-success">Resolve</a>
-                <?php else: ?>
-                    <span class="btn btn-primary" style="cursor: default;">Resolved</span>
-                <?php endif; ?>
+    <a href="update_status.php?id=<?= $report['report_id'] ?>&status=resolved" class="btn btn-success">Resolve</a>
+<?php else: ?>
+    <span class="btn btn-primary" style="cursor: default;">Resolved</span>
+<?php endif; ?>
             </td>
         </tr>
         <?php endwhile; ?>
