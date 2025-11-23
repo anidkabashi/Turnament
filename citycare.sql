@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2025 at 03:17 PM
+-- Generation Time: Nov 23, 2025 at 11:39 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -95,7 +95,7 @@ CREATE TABLE `reports` (
   `title` varchar(200) DEFAULT NULL,
   `description` text DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
-  `status` enum('Pending','In Progress','Resolved') DEFAULT 'Pending',
+  `status` varchar(20) NOT NULL DEFAULT 'pending',
   `priority` enum('Low','Medium','High') DEFAULT 'Medium',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `category` varchar(50) NOT NULL
@@ -106,8 +106,9 @@ CREATE TABLE `reports` (
 --
 
 INSERT INTO `reports` (`report_id`, `user_id`, `category_id`, `dept_id`, `title`, `description`, `location`, `status`, `priority`, `created_at`, `category`) VALUES
-(1, 3, NULL, NULL, 'wad', 'wadd', NULL, 'Pending', 'Medium', '2025-11-22 12:51:08', 'Broken Lights'),
-(2, 1, NULL, NULL, 'ad', 'wdawdawda', NULL, 'Pending', 'Medium', '2025-11-22 12:55:39', 'Broken Lights');
+(1, 3, NULL, NULL, 'wad', 'wadd', NULL, 'resolved', 'Medium', '2025-11-22 12:51:08', 'Broken Lights'),
+(2, 1, NULL, NULL, 'ad', 'wdawdawda', NULL, 'resolved', 'Medium', '2025-11-22 12:55:39', 'Broken Lights'),
+(3, 1, NULL, NULL, 'ulpian', 'tretuari nuk ka', NULL, 'resolved', 'Medium', '2025-11-22 14:19:52', 'Other');
 
 -- --------------------------------------------------------
 
@@ -218,7 +219,7 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `reports`
 --
 ALTER TABLE `reports`
-  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `report_images`
