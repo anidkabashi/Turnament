@@ -97,11 +97,11 @@ $resolvedReports = $conn->query("SELECT COUNT(*) as total FROM reports WHERE sta
             <td><?= htmlspecialchars($report['status']) ?></td>
             <td>
                 <?php if($report['status'] == 'pending'): ?>
-    <a href="update_status.php?id=<?= $report['report_id'] ?>&status=resolved" class="btn btn-success">Resolve</a>
-<?php else: ?>
-    <span class="btn btn-primary" style="cursor: default;">Resolved</span>
-<?php endif; ?>
-            </td>
+        <a href="update_status.php?id=<?= $report['report_id'] ?>&status=resolved" class="btn btn-success">Resolve</a>
+    <?php else: ?>
+        <span class="btn btn-primary" style="cursor: default;">Resolved</span>
+    <?php endif; ?>
+</td>
         </tr>
         <?php endwhile; ?>
     </table>
